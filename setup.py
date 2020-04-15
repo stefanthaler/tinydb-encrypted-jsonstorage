@@ -16,7 +16,7 @@ setuptools.setup(
           'pycryptodome',
      ],
      tests_require=[
-      'nose' #  python setup.py test
+      'nose' #  python setup.py test / nosetests
      ],
      classifiers=[
          "Programming Language :: Python :: 3",
