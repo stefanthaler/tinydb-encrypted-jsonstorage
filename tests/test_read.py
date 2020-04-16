@@ -10,8 +10,10 @@ import os
 
 PATH =join_path(".",".test-reflect.db")
 KEY = "test"
+def a_function():
+    pass
 
-class TestRead(unittest.TestCase):
+class TestReadWrite(unittest.TestCase):
 
 
     def setUp(self):
@@ -21,8 +23,19 @@ class TestRead(unittest.TestCase):
         self.db.close()
         os.remove(PATH)
 
-    def test_data_can_be_read(self):
-        
+    def test_data_can_be_written_and_read(self):
+        inserted_values = {"a":"1","b":"2"}
+        self.db.insert(inserted_values)
 
-        pass
+        read_data = self.db.all()[0]
+        self.assertEqual(read_data,inserted_values, "Read data should be equal to inserted data")
         # data can be read
+
+    def test_stored_data_is_untouched_if_write_error_occurs(self):
+        inserted_values = {"a":"1","b":"2"}
+        self.db.insert(inserted_values)
+
+        self.db.insert({"a":a_function}) # Functions are illegal
+
+        read_data = self.db.all()[0]
+        self.assertEqual(read_data,inserted_values, "Writing illegal data shout not cause the database to be altered")

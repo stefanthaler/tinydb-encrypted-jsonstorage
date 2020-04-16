@@ -31,14 +31,12 @@ class EncryptedJSONStorage(Storage):
         touch(path, create_dirs=create_dirs)  # Create file if not exists
 
         self.kwargs = kwargs
-
-        h = SHA256.new()
-        h.update(str.encode(encryption_key))
-        self.encryption_key = h.digest()
-        self._handle = open(path, 'rb+', encoding=encoding)
+        self.raw_encryption_key=encryption_key
         self.encoding = encoding
         self.path=path
         self.chunk_size=64
+
+        self.__reset_handle()
 
     def close(self) -> None:
         self._handle.close()
@@ -78,6 +76,9 @@ class EncryptedJSONStorage(Storage):
 
     def write(self, data: Dict[str, Dict[str, Any]]):
         # backup old db
+        self._handle.flush()
+        os.fsync(self._handle.fileno())
+        self._handle.truncate()
         shutil.copyfile(self.path, self.path+"_backup")
 
         try:
@@ -109,14 +110,20 @@ class EncryptedJSONStorage(Storage):
             os.fsync(self._handle.fileno())
             self._handle.truncate()
         except:
-
             print("WARNING: could not write database: ", sys.exc_info()[0])
-            shutil.copyfile(self.path+"_backup", self.path)
             traceback.print_tb(sys.exc_info()[2])
-            0/0
+            self._handle.close()
+            # Restore database
+            shutil.copyfile(self.path+"_backup", self.path)
+            self.__reset_handle()
         finally:
             os.remove(self.path+"_backup")
 
+    def __reset_handle(self):
+        h = SHA256.new()
+        h.update(str.encode(self.raw_encryption_key))
+        self.encryption_key = h.digest()
+        self._handle = open(self.path, 'rb+', encoding=self.encoding)
 
     def change_encryption_key(self, new_encryption_key):
         new_db_path = self.path + "_clone"
@@ -140,11 +147,8 @@ class EncryptedJSONStorage(Storage):
             shutil.copyfile(new_db_path, self.path)
 
             # reset encryption handle
-            self.encryption_key=new_encryption_key
-            h = SHA256.new()
-            h.update(str.encode(self.encryption_key))
-            self.encryption_key = h.digest()
-            self._handle = open(self.path, 'rb+', encoding=self.encoding)
+            self.raw_encryption_key=new_encryption_key
+            self.__reset_handle()
 
             success=True
         except:
