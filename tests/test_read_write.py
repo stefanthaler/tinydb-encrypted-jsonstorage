@@ -23,6 +23,9 @@ class TestReadWrite(unittest.TestCase):
         self.db.close()
         os.remove(PATH)
 
+    def test_storage_should_be_of_correct_type(self):
+        self.assertIsInstance(self.db.storage, tae.EncryptedJSONStorage)
+
     def test_data_can_be_written_and_read(self):
         inserted_values = {"a":"1","b":"2"}
         self.db.insert(inserted_values)
