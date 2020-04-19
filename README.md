@@ -42,9 +42,27 @@ A TinyDB storage implementation that stores values as encrypted json.
 
 # Use
 
-TODO add example here 
+## Create database
+You can use the encrypted storage by adding setting storage parameter of the TinyDB initializer to the EncryptedJSONStorage class.
 
+``` python
+from tinydb import TinyDB
+import tinydb_encrypted_jsonstorage as tae
+KEY = "hello"
+PATH = ".encrypted_db"
+db = TinyDB(encryption_key=KEY, path=PATH, storage=tae.EncryptedJSONStorage)
+```
 
+## Change encryption key
+You can change the encryption key of the storage by accessing the storage property of your [TinyDB](https://tinydb.readthedocs.io/en/latest/index.html) database.
+
+``` python
+db = ...
+db.storage.change_encryption_key("NEW_KEY"))
+```
+
+## Other operations
+For all the other operations, check the [TinyDB manual](https://tinydb.readthedocs.io/en/latest/index.html).
 
 
 # Thanks  
