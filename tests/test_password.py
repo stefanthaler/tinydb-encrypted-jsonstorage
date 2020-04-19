@@ -24,8 +24,7 @@ class TestPassword(unittest.TestCase):
 
     def test_db_cannot_be_opened_with_wrong_key(self):
         self.db.close()
-
-        with self.assertRaises(UnicodeDecodeError):
+        with self.assertRaises(ValueError, msg="Wrong password should not work "):
             db = TinyDB(encryption_key="OTHERKEY", path=PATH, storage=tae.EncryptedJSONStorage)
 
     def test_password_can_be_changed(self):
@@ -33,7 +32,7 @@ class TestPassword(unittest.TestCase):
         self.db.insert(inserted_values)
         self.db.storage.change_encryption_key("NEW_KEY")
 
-        with self.assertRaises(UnicodeDecodeError, msg="Old password should not work anymore"):
+        with self.assertRaises(ValueError, msg="Wrong password should not work "):
             db = TinyDB(encryption_key="OTHERKEY", path=PATH, storage=tae.EncryptedJSONStorage)
 
         read_data = self.db.all()[0]
@@ -44,3 +43,4 @@ class TestPassword(unittest.TestCase):
         self.assertIsNotNone(re_opened_db,"you should be able to reopen the database with new password")
         read_data = re_opened_db.all()[0]
         self.assertEqual(read_data,inserted_values, "After reopening, the database should still contain original values")
+        re_opened_db.close()

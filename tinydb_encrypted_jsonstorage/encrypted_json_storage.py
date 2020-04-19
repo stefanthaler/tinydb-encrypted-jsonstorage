@@ -72,7 +72,12 @@ class EncryptedJSONStorage(Storage):
                 return None
 
             # parse json
-            return json.loads(decrypted_db.decode("utf-8"))
+            try:
+                return json.loads(decrypted_db.decode("utf-8"))
+            except:
+                self.close()
+                raise ValueError("Failed to read encrypted storage '%s', most likable cause is a corrupt database or a wrong encryption key."%self.path)
+
 
     def write(self, data: Dict[str, Dict[str, Any]]):
         # backup old db
@@ -111,7 +116,7 @@ class EncryptedJSONStorage(Storage):
             self._handle.truncate()
         except:
             print("WARNING: could not write database: ", sys.exc_info()[0])
-            traceback.print_tb(sys.exc_info()[2])
+            #traceback.print_tb(sys.exc_info()[2])
             self._handle.close()
             # Restore database
             shutil.copyfile(self.path+"_backup", self.path)
@@ -130,18 +135,16 @@ class EncryptedJSONStorage(Storage):
 
         try:
             db_new_pw = TinyDB(encryption_key=new_encryption_key, path=new_db_path, storage=EncryptedJSONStorage)
-
         except:
             print("Error opening database with new password, aborting.", sys.exc_info()[0])
-            print("Error: ", sys.exc_info()[1])
-            traceback.print_tb(sys.exc_info()[2])
             return False
 
         try:
             # copy from old to new
             self._handle.flush()
             db_new_pw.storage.write(self.read())
-            self._handle.close()
+            self.close()
+            db_new_pw.close()
 
             # copy new over old
             shutil.copyfile(new_db_path, self.path)
@@ -153,8 +156,8 @@ class EncryptedJSONStorage(Storage):
             success=True
         except:
             print("WARNING: could not write database: ", sys.exc_info()[0])
-            print("Error: ", sys.exc_info()[1])
-            traceback.print_tb(sys.exc_info()[2])
+            #print("Error: ", sys.exc_info()[1])
+            #traceback.print_tb(sys.exc_info()[2])
             success=False
         finally:
             os.remove(new_db_path)
