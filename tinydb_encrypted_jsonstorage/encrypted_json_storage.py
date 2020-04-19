@@ -11,6 +11,7 @@ import sys
 import traceback
 import shutil
 from tinydb import TinyDB
+import logging
 
 class EncryptedJSONStorage(Storage):
     """
@@ -115,7 +116,7 @@ class EncryptedJSONStorage(Storage):
             os.fsync(self._handle.fileno())
             self._handle.truncate()
         except:
-            print("WARNING: could not write database: ", sys.exc_info()[0])
+            logging.error("could not write database: ", sys.exc_info()[0])
             #traceback.print_tb(sys.exc_info()[2])
             self._handle.close()
             # Restore database
@@ -136,7 +137,7 @@ class EncryptedJSONStorage(Storage):
         try:
             db_new_pw = TinyDB(encryption_key=new_encryption_key, path=new_db_path, storage=EncryptedJSONStorage)
         except:
-            print("Error opening database with new password, aborting.", sys.exc_info()[0])
+            logger.error("Failed opening database with new password, aborting.", sys.exc_info()[0])
             return False
 
         try:
@@ -155,7 +156,7 @@ class EncryptedJSONStorage(Storage):
 
             success=True
         except:
-            print("WARNING: could not write database: ", sys.exc_info()[0])
+            logger.error("could not write database: ", sys.exc_info()[0])
             #print("Error: ", sys.exc_info()[1])
             #traceback.print_tb(sys.exc_info()[2])
             success=False
