@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
      name='tinydb-encrypted-jsonstorage',
-     version='0.0.2',
+     version='0.1.0',
      author="Stefan Thaler",
      author_email="bruthaler@gmail.com",
      description="A TinyDB storage implementation that uses JSON and encryption.",

@@ -1,3 +1,2 @@
-pyinquirer==1.0.3
 tinydb==3.15.2
 pycryptodome==3.9.7

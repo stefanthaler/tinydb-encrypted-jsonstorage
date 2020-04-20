@@ -27,7 +27,7 @@ class TestReadWrite(unittest.TestCase):
         self.assertIsInstance(self.db.storage, tae.EncryptedJSONStorage)
 
     #  check what happens if file is wrong
-    # test what happens when encrytpion key is wrong 
+    # test what happens when encrytpion key is wrong
 
     def test_data_can_be_written_and_read(self):
         inserted_values = {"a":"1","b":"2"}

@@ -1,4 +1,5 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=C8FBBG2RZ5WYS&currency_code=EUR&source=url)
+[![Build Status](https://travis-ci.com/stefanthaler/tinydb-encrypted-jsonstorage.svg?branch=master)](https://travis-ci.com/stefanthaler/tinydb-encrypted-jsonstorage)
 
 # tinydb-encrypted-jsonstorage
 A TinyDB storage implementation that stores values as encrypted json.
