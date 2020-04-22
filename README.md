@@ -1,6 +1,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=C8FBBG2RZ5WYS&currency_code=EUR&source=url)
 [![Build Status](https://travis-ci.com/stefanthaler/tinydb-encrypted-jsonstorage.svg?branch=master)](https://travis-ci.com/stefanthaler/tinydb-encrypted-jsonstorage)
 [![Coverage Status](https://coveralls.io/repos/github/stefanthaler/tinydb-encrypted-jsonstorage/badge.svg?branch=master)](https://coveralls.io/github/stefanthaler/tinydb-encrypted-jsonstorage?branch=master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # tinydb-encrypted-jsonstorage
 A TinyDB storage implementation that stores values as encrypted json.
@@ -68,4 +69,6 @@ For all the other operations, check the [TinyDB manual](https://tinydb.readthedo
 
 
 # Thanks  
-* Shields.io, for providing the github paypal button: https://shields.io/
+* Shields.io, for providing the github paypal and the MIT license button: https://shields.io/
+* [travis-ci.org](https://travis-ci.org) for providing free continuous integration for open source projects.
+* [coveralls.io](https://coveralls.io) for providing free continuous code coverage reporting for open source projects.
