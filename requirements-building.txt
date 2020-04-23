@@ -6,3 +6,5 @@ python-coveralls
 pyyaml
 pytest-cov
 coverage==4.5.4
+docstr-coverage
+pybadges
