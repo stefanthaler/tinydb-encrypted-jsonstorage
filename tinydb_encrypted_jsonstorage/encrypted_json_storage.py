@@ -24,6 +24,8 @@ class EncryptedJSONStorage(Storage):
         Also creates the storage file, if it doesn't exist.
         :param path: Where to store the JSON data.
         :param encryption_key The encryption / decryption key
+        :param create_dirs Whether or not to create the directories of the paths
+        :param encoding encoding of the encrypted file.
         """
 
         super().__init__()
@@ -40,9 +42,15 @@ class EncryptedJSONStorage(Storage):
         self.__reset_handle()
 
     def close(self) -> None:
+        """
+        Closes the file handle to the storage
+        """
         self._handle.close()
 
     def read(self) -> Optional[Dict[str, Dict[str, Any]]]:
+        """
+        Reads data from the file handle. This method is required from the TinyDB API.
+        """
         # Get the file size
         self._handle.seek(0, os.SEEK_END)
         size = self._handle.tell()
@@ -81,6 +89,10 @@ class EncryptedJSONStorage(Storage):
 
 
     def write(self, data: Dict[str, Dict[str, Any]]):
+        """
+        Writes data tot he file. This method is required from the TinyDB API.
+        :param data: A dictionary containing the JSON data to store.
+        """
         # backup old db
         self._handle.flush()
         os.fsync(self._handle.fileno())
@@ -132,6 +144,10 @@ class EncryptedJSONStorage(Storage):
         self._handle = open(self.path, 'rb+', encoding=self.encoding)
 
     def change_encryption_key(self, new_encryption_key):
+        """
+        Changes the encryption key of the storage to the new encryption key. Can be called via db.storage.change_encryption_key(...).
+        :param new_encryption_key: A string that contains the new encryption key.
+        """
         new_db_path = self.path + "_clone"
 
         try:

@@ -1,10 +1,11 @@
 #!/bin/bash
 COV=$(docstr-coverage tinydb_encrypted_jsonstorage/ | grep "Total docstring coverage:" | cut -d":" -f 2 | cut -d";" -f1 | cut -d" " -f 2)
 CMP=$(echo $COV | cut -d"." -f 1)
+echo $CMP
 if [ $CMP -lt 50 ] 
 then
 	COLOR=#EF5350
-elif [ $COV -lt 90 ]
+elif [ $CMP -lt 90 ]
 then
 	COLOR=#FFCA28
 else 
