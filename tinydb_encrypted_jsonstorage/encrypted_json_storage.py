@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+    EncryptedJSONStorage class
+
+    Stores the data in an encrypted JSON file.
+
+"""
+
 from tinydb.storages import Storage, touch
 from typing import Dict, Any, Optional
 import json
@@ -15,7 +23,7 @@ import logging
 
 class EncryptedJSONStorage(Storage):
     """
-    Store the data in a JSON file.
+    Stores the data in an encrypted JSON file.
     """
 
     def __init__(self, encryption_key,  path: str, create_dirs=True, encoding=None, **kwargs):
@@ -138,6 +146,9 @@ class EncryptedJSONStorage(Storage):
             os.remove(self.path+"_backup")
 
     def __reset_handle(self):
+        """
+            Reopens the file handle with (potentially a new key)
+        """
         h = SHA256.new()
         h.update(str.encode(self.raw_encryption_key))
         self.encryption_key = h.digest()
