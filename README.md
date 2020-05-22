@@ -1,4 +1,3 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=C8FBBG2RZ5WYS&currency_code=EUR&source=url)
 [![Build Status](https://travis-ci.com/stefanthaler/tinydb-encrypted-jsonstorage.svg?branch=master)](https://travis-ci.com/stefanthaler/tinydb-encrypted-jsonstorage)
 [![Coverage Status](https://coveralls.io/repos/github/stefanthaler/tinydb-encrypted-jsonstorage/badge.svg?branch=master)](https://coveralls.io/github/stefanthaler/tinydb-encrypted-jsonstorage?branch=master)
 [![Documentation Status](./badges/doc_coverage.svg)](https://pypi.org/project/docstr-coverage/)
