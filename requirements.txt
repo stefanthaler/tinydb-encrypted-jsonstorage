@@ -1,2 +1,2 @@
 tinydb==3.15.2
-pycryptodome==3.9.7
+pycryptodome==3.19.1
